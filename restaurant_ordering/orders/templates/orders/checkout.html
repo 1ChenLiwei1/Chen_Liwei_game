@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>支付</title>
+</head>
+<body>
+    <h1>Stripe 付款页面</h1>
+    <p>请点击下方按钮完成支付</p>
+
+    <form action="{% url 'create_checkout_session' %}" method="POST">
+        {% csrf_token %}
+        <button type="submit">💳 立即支付</button>
+    </form>
+
+</body>
+</html>

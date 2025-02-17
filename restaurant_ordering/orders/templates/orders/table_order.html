@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>桌号 {{ table_id }}</title>
+</head>
+<body>
+    <h1>欢迎光临！</h1>
+    <p>您的桌号是：<strong>{{ table_id }}</strong></p>
+
+    <!-- 跳转到菜单页面 -->
+    <a href="{% url 'menu' table_id=table_id %}">
+        <button>开始点餐</button>
+    </a>
+</body>
+</html>
+
