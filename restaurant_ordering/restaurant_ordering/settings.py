@@ -35,7 +35,11 @@ stripe.api_key = STRIPE_SECRET_KEY
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    "127.0.0.1",
+    "localhost",
+    "3a8f-118-189-129-137.ngrok-free.app",
+]
 
 
 # Application definition
@@ -65,7 +69,9 @@ ROOT_URLCONF = 'restaurant_ordering.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates'],  # 这里添加项目根目录的 templates 文件夹
+        'DIRS': [
+            BASE_DIR / 'templates',
+        ],  # 这里添加项目根目录的 templates 文件夹
         'APP_DIRS': True,  # 确保启用应用目录中的模板查找
         'OPTIONS': {
             'context_processors': [
@@ -128,7 +134,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field

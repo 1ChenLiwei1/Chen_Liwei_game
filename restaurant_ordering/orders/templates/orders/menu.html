@@ -1,83 +1,56 @@
 <!DOCTYPE html>
 <html lang="zh">
 <head>
+    {% load static %}
     <meta charset="UTF-8">
     <title>菜单</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-        }
-        .menu-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 20px;
-            padding: 20px;
-        }
-        .menu-item {
-            border: 1px solid #ddd;
-            padding: 15px;
-            text-align: center;
-        }
-        .menu-item img {
-            width: 100%;
-            max-height: 200px;
-            object-fit: cover;
-        }
-        .order-button {
-            display: block;
-            margin-top: 10px;
-            padding: 10px;
-            background-color: #28a745;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-        .order-button:hover {
-            background-color: #218838;
-        }
-         /* 浮动按钮样式 */
-        .floating-button {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background-color: #ff6600;
-            color: white;
-            border: none;
-            padding: 15px 20px;
-            border-radius: 50px;
-            font-size: 18px;
-            cursor: pointer;
-            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
-            transition: 0.3s;
-        }
-
-        .floating-button:hover {
-            background-color: #e65c00;
-        }
-    </style>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
+
 <body>
     <h1>欢迎点餐，您的桌号是 {{ table_id }}</h1>
 
     <div class="menu-container">
         {% for item in menu_items %}
         <div class="menu-item">
-            <img src="{{ item.image.url }}" alt="{{ item.name }}" style="width:200px; height:auto;">
+            <img src="{{ item.image.url }}" alt="{{ item.name }}">
             <h2>{{ item.name }}</h2>
             <p>{{ item.description }}</p>
             <p><strong>价格：</strong>￥{{ item.price }}</p>
-            <form action="{% url 'submit_order' %}" method="post">
-                {% csrf_token %}
-                <input type="hidden" name="table_id" value="{{ table_id }}">
-                <input type="hidden" name="menu_item_id" value="{{ item.id }}">
-                <button type="submit" class="order-button">订购</button>
-            </form>
+
+            <!-- 订购按钮 -->
+            <div class="order-controls">
+                <button class="decrease" onclick="updateQuantity('{{ item.id }}', -1)">-</button>
+                <span id="quantity-{{ item.id }}">0</span>
+                <button class="increase" onclick="updateQuantity('{{ item.id }}', 1)">+</button>
+            </div>
         </div>
         {% endfor %}
     </div>
-    <button class="floating-button" onclick="window.location.href='{% url 'checkout' %}'">
+
+    <!-- 结账按钮 -->
+    <button class="floating-button" onclick="goToCheckout()">
         💳 去支付
     </button>
+
+    <script>
+        function updateQuantity(menuItemId, change) {
+        let quantitySpan = document.getElementById(`quantity-${menuItemId}`);
+        let currentQuantity = parseInt(quantitySpan.textContent);
+        let newQuantity = Math.max(0, currentQuantity + change);
+        quantitySpan.textContent = newQuantity;
+
+        fetch("{% url 'update_order' %}", {
+            method: "POST",
+            headers: {
+                "X-CSRFToken": "{{ csrf_token }}",
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ menu_item_id: menuItemId, quantity: newQuantity }),
+        });
+    }
+    </script>
 </body>
 </html>
+
 
