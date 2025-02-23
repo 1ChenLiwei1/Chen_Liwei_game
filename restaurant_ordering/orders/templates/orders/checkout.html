@@ -25,7 +25,8 @@
     </tr>
     {% endfor %}
 </table>
-<p>总金额: ${{ total_price }}</p>
+    <p>总金额: ${{ total_price }}</p>
+    <p>订单 ID: {{ order }}</p>
 
     <button class="floating-button" onclick="goToPayment()">💳 立即支付</button>
 </body>
@@ -35,7 +36,8 @@
 
 <script>
     let orderData = JSON.parse(localStorage.getItem('orderData')) || {};
-    let menuItems = {{ menu_items|safe }};
+    let menuItems = JSON.parse('{{ menu_items_json|escapejs }}');
+    let orderId = "{{ order.id }}";
 
     function renderOrderSummary() {
         let totalPrice = 0;
@@ -57,8 +59,12 @@
     }
 
     function goToPayment() {
-        let encodedOrderData = encodeURIComponent(JSON.stringify(orderData));
-        window.location.href = `{% url 'create_checkout_session' %}?orderData=${encodedOrderData}`;
+        if (!orderId || orderId === "None") {
+            alert("订单 ID 无效，请刷新页面或重新下单！");
+            return;
+        }
+
+        window.location.href = `/order/create-checkout-session/?order_id=${orderId}`;
     }
 
     renderOrderSummary();

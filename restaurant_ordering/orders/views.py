@@ -51,27 +51,43 @@ def submit_order(request):
 
 
 def create_checkout_session(request):
-    import json
-    order_id = request.GET.get('order_id')  # 获取订单 ID
+    order_id = request.GET.get('order_id')
+    if not order_id:
+        return redirect("order_summary")
 
-    order = get_object_or_404(Order, id=order_id)  # 确保订单存在
+    order = get_object_or_404(Order, id=order_id)
+    order_items = OrderItems.objects.filter(order=order)  # ✅ 确保查询正确
 
-    session = stripe.checkout.Session.create(
-        payment_method_types=['card'],
-        line_items=[{
-            'price_data': {
-                'currency': 'cny',
-                'product_data': {'name': '餐厅订单'},
-                'unit_amount': int(order.total_price * 100),  # 确保价格正确
-            },
-            'quantity': 1,
-        }],
-        mode='payment',
-        success_url="http://127.0.0.1:8000/success/",
-        cancel_url="http://127.0.0.1:8000/cancel/",
-    )
+    # ✅ 打印调试信息
+    for item in order_items:
+        print(f"OrderItem: {item}, MenuItem: {item.menuitem}")  # 🚨 如果报错，说明 item.menuitem 没关联
+
+    # ✅ 计算总价
+    total_price = sum(item.menuitem.price * item.quantity for item in order_items)
+    total_price = int(total_price * 100)  # ✅ Stripe 需要整数单位（分）
+
+    try:
+        session = stripe.checkout.Session.create(
+            payment_method_types=['card'],
+            line_items=[{
+                'price_data': {
+                    'currency': 'cny',
+                    'product_data': {'name': '餐厅订单'},
+                    'unit_amount': total_price,
+                },
+                'quantity': 1,
+            }],
+            mode='payment',
+            success_url="http://127.0.0.1:8000/success/",
+            cancel_url="http://127.0.0.1:8000/cancel/",
+        )
+    except Exception as e:
+        print("Stripe 创建会话错误:", e)
+        return redirect("order_summary")
 
     return redirect(session.url, code=303)
+
+
 
 def menu(request, table_id):
     menu_items = MenuItem.objects.all()  # 查询所有菜单项
@@ -89,10 +105,17 @@ def checkout(request, order_id):
 
     total_price = sum(item.menuitem.price * item.quantity for item in order_items)
 
+    menu_items = list(MenuItem.objects.values("id", "name", "price"))
+    for item in menu_items:
+        item["price"] = float(item["price"])
+
+    menu_items_json = json.dumps(menu_items)
+
     return render(request, "orders/checkout.html", {
         "order": order,
         "order_items": order_items,
         "total_price": total_price,
+        "menu_items_json": menu_items_json
     })
 
 
@@ -167,3 +190,4 @@ def menu_view(request, table_id):
         "menu_items": menu_items,
         "order": order  # 传递订单给模板
     })
+
