@@ -5,17 +5,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4a271016-2024-4b61-b348-d01d488fe9d6" name="更改" comment="Initial commit">
-      <change afterPath="$PROJECT_DIR$/Game_2025/main_file" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/restaurant_ordering/static/css/style.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/restaurant_ordering/templates/base.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/restaurant_ordering/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/restaurant_ordering/db.sqlite3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/restaurant_ordering/media/images/12.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/restaurant_ordering/media/images/13.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/restaurant_ordering/media/images/Cassoulet_rice.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/restaurant_ordering/media/images/Kung_Pao_Chicken.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/restaurant_ordering/orders/migrations/0001_initial.py" beforeDir="false" afterPath="$PROJECT_DIR$/restaurant_ordering/orders/migrations/0001_initial.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/restaurant_ordering/orders/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/restaurant_ordering/orders/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/restaurant_ordering/orders/templates/orders/checkout.html" beforeDir="false" afterPath="$PROJECT_DIR$/restaurant_ordering/orders/templates/orders/checkout.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/restaurant_ordering/orders/templates/orders/menu.html" beforeDir="false" afterPath="$PROJECT_DIR$/restaurant_ordering/orders/templates/orders/menu.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/restaurant_ordering/orders/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/restaurant_ordering/orders/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/restaurant_ordering/orders/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/restaurant_ordering/orders/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/restaurant_ordering/qr_code.py" beforeDir="false" afterPath="$PROJECT_DIR$/restaurant_ordering/qr_code.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/restaurant_ordering/restaurant_ordering/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/restaurant_ordering/restaurant_ordering/settings.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -133,7 +135,8 @@
       <workItem from="1739755964689" duration="24569000" />
       <workItem from="1739872059267" duration="599000" />
       <workItem from="1740027356476" duration="9481000" />
-      <workItem from="1740146060075" duration="2710000" />
+      <workItem from="1740146060075" duration="6976000" />
+      <workItem from="1740208124940" duration="27447000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <option name="closed" value="true" />
@@ -175,7 +178,15 @@
       <option name="project" value="LOCAL" />
       <updated>1739806086376</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Initial commit">
+      <option name="closed" value="true" />
+      <created>1740183746680</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1740183746680</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -187,6 +198,6 @@
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Chen_Liwei_game$manage.coverage" NAME="manage 覆盖结果" MODIFIED="1739160599122" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/restaurant_project" />
-    <SUITE FILE_PATH="coverage/Chen_Liwei_game$qr_code.coverage" NAME="qr_code 覆盖结果" MODIFIED="1740034778514" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/restaurant_ordering" />
+    <SUITE FILE_PATH="coverage/Chen_Liwei_game$qr_code.coverage" NAME="qr_code 覆盖结果" MODIFIED="1740236207361" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/restaurant_ordering" />
   </component>
 </project>

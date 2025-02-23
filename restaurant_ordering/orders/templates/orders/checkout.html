@@ -1,15 +1,37 @@
-{% extends "base.html" %}
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <title>结账</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <h1>结账</h1>
 
-{% block title %}结账页面{% endblock %}
+   <table>
+    <tr>
+        <th>菜品</th>
+        <th>单价</th>
+        <th>数量</th>
+        <th>总价</th>
+    </tr>
+    {% for item in order_items %}
+    <tr>
+        <td>{{ item.menuitem.name }}</td>
+        <td>${{ item.menuitem.price }}</td>
+        <td>{{ item.quantity }}</td>
+        <td>${{ item.menuitem.price|floatformat:2 }}</td>
+    </tr>
+    {% endfor %}
+</table>
+<p>总金额: ${{ total_price }}</p>
 
-{% block content %}
-<h2>结账</h2>
+    <button class="floating-button" onclick="goToPayment()">💳 立即支付</button>
+</body>
+</html>
 
-<div id="order-summary"></div>
 
-<h3 id="total-price">总金额: ￥0.00</h3>
-
-<button class="floating-button" onclick="goToPayment()">💳 立即支付</button>
 
 <script>
     let orderData = JSON.parse(localStorage.getItem('orderData')) || {};
@@ -40,7 +62,8 @@
     }
 
     renderOrderSummary();
+
 </script>
-{% endblock %}
+
 
 

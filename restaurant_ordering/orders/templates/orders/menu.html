@@ -17,20 +17,20 @@
             <h2>{{ item.name }}</h2>
             <p>{{ item.description }}</p>
             <p><strong>价格：</strong>￥{{ item.price }}</p>
-
-            <!-- 订购按钮 -->
             <div class="order-controls">
-                <button class="decrease" onclick="updateQuantity('{{ item.id }}', -1)">-</button>
+                <button onclick="updateQuantity('{{ item.id }}', -1)">-</button>
                 <span id="quantity-{{ item.id }}">0</span>
-                <button class="increase" onclick="updateQuantity('{{ item.id }}', 1)">+</button>
+                <button onclick="updateQuantity('{{ item.id }}', 1)">+</button>
             </div>
+            <!-- 加入购物车按钮 -->
+            <button onclick="addToCart({{ table_id }}, {{ item.id }})">加入购物车</button>
         </div>
         {% endfor %}
     </div>
 
     <!-- 结账按钮 -->
-    <button class="floating-button" onclick="goToCheckout()">
-        💳 去支付
+    <button class="floating-button" id="checkout-btn">
+    💳 去支付
     </button>
 
     <script>
@@ -49,6 +49,44 @@
             body: JSON.stringify({ menu_item_id: menuItemId, quantity: newQuantity }),
         });
     }
+
+    document.getElementById("checkout-btn").addEventListener("click", function () {
+        var orderId = "{{ order.id|default:'' }}";    // 从 Django 模板获取 order_id
+        if (orderId) {
+            window.location.href = "/order/checkout/" + orderId + "/";
+        } else {
+            alert("暂无订单可结账");
+        }
+    });
+
+    function addToCart(tableId, menuItemId) {
+        fetch(`/order/add_to_cart/${tableId}/${menuItemId}/`, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({})
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log("加入购物车成功：", data);
+            if (data.order_id) {
+                document.getElementById("checkout-btn").setAttribute("data-order-id", data.order_id);
+            }
+        })
+        .catch(error => console.error("错误：", error));
+    }
+
+    document.getElementById("checkout-btn").addEventListener("click", function () {
+        var orderId = this.getAttribute("data-order-id");
+        if (orderId) {
+            window.location.href = "/order/checkout/" + orderId + "/";
+        } else {
+            alert("暂无订单可结账");
+        }
+    });
+
     </script>
 </body>
 </html>
