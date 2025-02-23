@@ -191,3 +191,39 @@ def menu_view(request, table_id):
         "order": order  # 传递订单给模板
     })
 
+def get_orders(request):
+    orders = Order.objects.values("id", "status")
+    return JsonResponse(list(orders), safe=False)
+
+def kitchen_orders(request):
+    orders = Order.objects.all()
+    return render(request, "orders/kitchen.html", {"orders": orders})
+
+
+def get_kitchen_orders(request):
+    orders = Order.objects.prefetch_related("items__menuitem").all()
+
+    data = []
+    for order in orders:
+        data.append({
+            "id": order.id,
+            "status": order.status,
+            "items": [
+                {
+                    "name": item.menuitem.name,
+                    "quantity": item.quantity
+                }
+                for item in order.items.all()
+            ],
+        })
+
+    return JsonResponse(data, safe=False)
+
+
+def mark_order_complete(request, order_id):
+    if request.method == "POST":
+        order = get_object_or_404(Order, id=order_id)
+        order.status = "完成"
+        order.save()
+        return JsonResponse({"message": "订单已完成"})
+    return JsonResponse({"error": "无效请求"}, status=400)

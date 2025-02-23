@@ -2,6 +2,7 @@ import qrcode
 from io import BytesIO
 from django.core.files.base import ContentFile
 from django.db import models
+from django.utils import timezone
 
 
 class Table(models.Model):
@@ -17,9 +18,15 @@ class MenuItem(models.Model):
 
 
 class Order(models.Model):
-    status = models.CharField(max_length=20, choices=[("Pending", "Pending"), ("Completed", "Completed")])
+    STATUS_CHOICES = [
+        ("待处理", "待处理"),
+        ("正在准备", "正在准备"),
+        ("完成", "完成"),
+    ]
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default="待处理")
     table = models.ForeignKey('Table', on_delete=models.CASCADE)
     items = models.ManyToManyField(MenuItem, through='OrderItems')
+    created_at = models.DateTimeField(default=timezone.now, blank=True)
 
     def calculate_total_price(self):
         return sum(item.menuitem.price * item.quantity for item in self.order_items.all())

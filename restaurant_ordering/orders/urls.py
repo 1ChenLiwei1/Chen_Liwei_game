@@ -13,6 +13,8 @@ urlpatterns = [
     path('success/', views.success, name='success'),
     path('add_to_cart/<int:table_id>/<int:menu_item_id>/', views.add_to_cart, name="add_to_cart"),
     path('cancel/', views.cancel, name='cancel'),
+    path("kitchen/", views.kitchen_orders, name="kitchen_orders"),
+    path("api/orders/", views.get_orders, name="get_orders"),
 
     path('', views.home, name='home')
 ]

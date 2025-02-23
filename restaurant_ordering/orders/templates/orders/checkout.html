@@ -3,73 +3,134 @@
 <head>
     {% load static %}
     <meta charset="UTF-8">
-    <title>结账</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>结账 - 订单确认</title>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>
+        body {
+            font-family: 'Microsoft YaHei', 'Heiti SC', 'Helvetica', sans-serif;
+            background-color: #f8f8f8;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        h1 {
+            color: #d4342c;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+        .total-price {
+            font-size: 1.2em;
+            font-weight: bold;
+            text-align: right;
+            margin-top: 20px;
+        }
+        .order-id {
+            font-size: 0.9em;
+            color: #666;
+            text-align: right;
+        }
+        .floating-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 30px;
+            font-size: 18px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: background-color 0.3s;
+        }
+        .floating-button:hover {
+            background-color: #45a049;
+        }
+    </style>
 </head>
 <body>
     <h1>结账</h1>
 
-   <table>
-    <tr>
-        <th>菜品</th>
-        <th>单价</th>
-        <th>数量</th>
-        <th>总价</th>
-    </tr>
-    {% for item in order_items %}
-    <tr>
-        <td>{{ item.menuitem.name }}</td>
-        <td>${{ item.menuitem.price }}</td>
-        <td>{{ item.quantity }}</td>
-        <td>${{ item.menuitem.price|floatformat:2 }}</td>
-    </tr>
-    {% endfor %}
-</table>
-    <p>总金额: ${{ total_price }}</p>
-    <p>订单 ID: {{ order }}</p>
+    <table>
+        <thead>
+            <tr>
+                <th>菜品</th>
+                <th>单价</th>
+                <th>数量</th>
+                <th>总价</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in order_items %}
+            <tr>
+                <td>{{ item.menuitem.name }}</td>
+                <td>￥{{ item.menuitem.price|floatformat:2 }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>￥{{ item.menuitem.price|floatformat:2 }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <p class="total-price">总金额: ￥{{ total_price|floatformat:2 }}</p>
+    <p class="order-id">订单 ID: {{ order }}</p>
 
     <button class="floating-button" onclick="goToPayment()">💳 立即支付</button>
+
+    <script>
+        let orderData = JSON.parse(localStorage.getItem('orderData')) || {};
+        let menuItems = JSON.parse('{{ menu_items_json|escapejs }}');
+        let orderId = "{{ order.id }}";
+
+        function renderOrderSummary() {
+            let totalPrice = 0;
+            let orderSummaryHTML = "<ul>";
+
+            for (let itemId in orderData) {
+                if (orderData[itemId] > 0) {
+                    let item = menuItems.find(i => i.id == itemId);
+                    let itemTotal = item.price * orderData[itemId];
+
+                    orderSummaryHTML += `<li>${item.name} x ${orderData[itemId]} = ￥${itemTotal.toFixed(2)}</li>`;
+                    totalPrice += itemTotal;
+                }
+            }
+
+            orderSummaryHTML += "</ul>";
+            document.getElementById("order-summary").innerHTML = orderSummaryHTML;
+            document.getElementById("total-price").innerText = `总金额: ￥${totalPrice.toFixed(2)}`;
+        }
+
+        function goToPayment() {
+            if (!orderId || orderId === "None") {
+                alert("订单 ID 无效，请刷新页面或重新下单！");
+                return;
+            }
+
+            window.location.href = `/order/create-checkout-session/?order_id=${orderId}`;
+        }
+
+        renderOrderSummary();
+    </script>
 </body>
 </html>
-
-
-
-<script>
-    let orderData = JSON.parse(localStorage.getItem('orderData')) || {};
-    let menuItems = JSON.parse('{{ menu_items_json|escapejs }}');
-    let orderId = "{{ order.id }}";
-
-    function renderOrderSummary() {
-        let totalPrice = 0;
-        let orderSummaryHTML = "<ul>";
-
-        for (let itemId in orderData) {
-            if (orderData[itemId] > 0) {
-                let item = menuItems.find(i => i.id == itemId);
-                let itemTotal = item.price * orderData[itemId];
-
-                orderSummaryHTML += `<li>${item.name} x ${orderData[itemId]} = ￥${itemTotal.toFixed(2)}</li>`;
-                totalPrice += itemTotal;
-            }
-        }
-
-        orderSummaryHTML += "</ul>";
-        document.getElementById("order-summary").innerHTML = orderSummaryHTML;
-        document.getElementById("total-price").innerText = `总金额: ￥${totalPrice.toFixed(2)}`;
-    }
-
-    function goToPayment() {
-        if (!orderId || orderId === "None") {
-            alert("订单 ID 无效，请刷新页面或重新下单！");
-            return;
-        }
-
-        window.location.href = `/order/create-checkout-session/?order_id=${orderId}`;
-    }
-
-    renderOrderSummary();
-
-</script>
 
 
 

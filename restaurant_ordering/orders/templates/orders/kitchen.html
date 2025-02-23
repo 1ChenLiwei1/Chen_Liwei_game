@@ -1,0 +1,40 @@
+<html>
+<head>
+    <title>厨房订单</title>
+    <script>
+        function fetchOrders() {
+            fetch("/kitchen/")
+                .then(response => response.json())
+                .then(data => {
+                    let orderList = document.getElementById("order-list");
+                    orderList.innerHTML = "";
+                    data.forEach(order => {
+                        let orderElement = document.createElement("li");
+                        let itemList = order.items.map(item => `${item.name} x ${item.quantity}`).join(", ");
+                        orderElement.innerHTML = `订单 ${order.id} - 状态: ${order.status}
+                            <br> 菜品: ${itemList}
+                            <br><button onclick="markComplete(${order.id})">标记完成</button>`;
+                        orderList.appendChild(orderElement);
+                    });
+                });
+        }
+
+        function markComplete(orderId) {
+            fetch(`/api/orders/update/${orderId}/`, {
+                method: "POST",
+                headers: {
+                    "X-CSRFToken": "{{ csrf_token }}",
+                    "Content-Type": "application/json"
+                }
+            }).then(() => fetchOrders());
+        }
+
+        setInterval(fetchOrders, 5000);
+    </script>
+</head>
+<body>
+    <h1>厨房订单</h1>
+    <ul id="order-list"></ul>
+</body>
+</html>
+
