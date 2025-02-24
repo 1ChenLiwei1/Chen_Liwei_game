@@ -12,32 +12,36 @@
             background-color: #f8f8f8;
             color: #333;
             line-height: 1.6;
+            margin: 0;
+            padding: 0;
         }
         .header {
             background-color: #d4342c;
             color: white;
             text-align: center;
-            padding: 20px;
-            margin-bottom: 20px;
+            padding: 15px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 1.2em;
         }
         .menu-container {
             display: flex;
-            flex-wrap: wrap;
-            justify-content: space-around;
-            max-width: 1200px;
-            margin: 0 auto;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px;
         }
         .menu-item {
             background-color: white;
             border-radius: 8px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            margin: 10px;
+            margin: 10px 0;
             padding: 15px;
-            width: calc(33.333% - 20px);
-            transition: transform 0.3s ease;
-        }
-        .menu-item:hover {
-            transform: translateY(-5px);
+            width: 100%;
+            max-width: 500px;
         }
         .menu-item img {
             width: 100%;
@@ -47,7 +51,7 @@
         }
         .order-controls {
             display: flex;
-            justify-content: center;
+            justify-content: space-between;
             align-items: center;
             margin: 10px 0;
         }
@@ -55,10 +59,10 @@
             background-color: #d4342c;
             color: white;
             border: none;
-            padding: 5px 10px;
-            margin: 0 5px;
+            padding: 8px 15px;
             cursor: pointer;
             border-radius: 3px;
+            font-size: 1em;
         }
         .floating-button {
             position: fixed;
@@ -69,16 +73,26 @@
             border: none;
             padding: 15px 30px;
             border-radius: 30px;
-            font-size: 18px;
+            font-size: 1em;
             cursor: pointer;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        @media (min-width: 768px) {
+            .menu-container {
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: space-around;
+            }
+            .menu-item {
+                width: calc(50% - 20px);
+            }
         }
     </style>
 </head>
 
 <body>
     <div class="header">
-        <h1>欢迎点餐，您的桌号是 {{ table_id }}</h1>
+        <h1>Welcome to order. Your table number is {{ table_id }}</h1>
     </div>
 
     <div class="menu-container">
@@ -92,15 +106,16 @@
                 <button onclick="updateQuantity('{{ item.id }}', -1)">-</button>
                 <span id="quantity-{{ item.id }}">0</span>
                 <button onclick="updateQuantity('{{ item.id }}', 1)">+</button>
+                <button onclick="addToCart({{ table_id }}, {{ item.id }})">Add to Cart</button>
             </div>
-            <button onclick="addToCart({{ table_id }}, {{ item.id }})">加入购物车</button>
         </div>
         {% endfor %}
     </div>
 
     <button class="floating-button" id="checkout-btn">
-        💳 去支付
+        💳 go and pay
     </button>
+
 
     <script>
         function updateQuantity(menuItemId, change) {

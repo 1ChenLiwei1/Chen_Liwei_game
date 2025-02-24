@@ -19,11 +19,11 @@ class MenuItem(models.Model):
 
 class Order(models.Model):
     STATUS_CHOICES = [
-        ("待处理", "待处理"),
-        ("正在准备", "正在准备"),
-        ("完成", "完成"),
+        ("Pending", "待处理"),
+        ("Preparing", "正在准备"),
+        ("Completed", "完成"),
     ]
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default="待处理")
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default="Pending")
     table = models.ForeignKey('Table', on_delete=models.CASCADE)
     items = models.ManyToManyField(MenuItem, through='OrderItems')
     created_at = models.DateTimeField(default=timezone.now, blank=True)

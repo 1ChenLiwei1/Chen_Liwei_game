@@ -195,27 +195,44 @@ def get_orders(request):
     orders = Order.objects.values("id", "status")
     return JsonResponse(list(orders), safe=False)
 
-def kitchen_orders(request):
-    orders = Order.objects.all()
-    return render(request, "orders/kitchen.html", {"orders": orders})
 
+def kitchen_orders(request):
+    orders = Order.objects.filter(status="Pending").values("id", "status")  # 仅返回 id 和状态
+    data = []
+
+    for order in orders:
+        order_obj = {
+            "id": order["id"],
+            "status": order["status"],
+            "items": []
+        }
+
+        # 获取订单对应的菜品列表
+        order_items = OrderItems.objects.filter(order_id=order["id"]).values("menuitem__name", "quantity")
+        for item in order_items:
+            order_obj["items"].append({
+                "name": item["menuitem__name"],
+                "quantity": item["quantity"]
+            })
+
+        data.append(order_obj)
+
+    return JsonResponse(data, safe=False)  # 确保返回 JSON
 
 def get_kitchen_orders(request):
     orders = Order.objects.prefetch_related("items__menuitem").all()
 
-    data = []
-    for order in orders:
-        data.append({
+    data = [
+        {
             "id": order.id,
             "status": order.status,
             "items": [
-                {
-                    "name": item.menuitem.name,
-                    "quantity": item.quantity
-                }
+                {"name": item.menuitem.name, "quantity": item.quantity}
                 for item in order.items.all()
             ],
-        })
+        }
+        for order in orders
+    ]
 
     return JsonResponse(data, safe=False)
 

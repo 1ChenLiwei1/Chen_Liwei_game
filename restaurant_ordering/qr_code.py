@@ -2,7 +2,7 @@ import qrcode
 
 def generate_qr_code(table_id):
     # 定义 URL，指向正确的订单页面
-    url = f" https://52b7-112-199-132-172.ngrok-free.app"  # 假设 URL 格式是这样的
+    url = f" https://52b7-112-199-132-172.ngrok-free.app/order/{table_id}"  # 假设 URL 格式是这样的
 
     # 生成 QR 码
     qr = qrcode.make(url)

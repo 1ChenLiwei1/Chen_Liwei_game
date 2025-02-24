@@ -51,12 +51,12 @@
 </head>
 <body>
     <div class="container">
-        <h1>欢迎光临！</h1>
-        <p>您的桌号是：<span class="table-number">{{ table_id }}</span></p>
+        <h1>Welcome!</h1>
+        <p>Your table number is：<span class="table-number">{{ table_id }}</span></p>
 
         <!-- 跳转到菜单页面 -->
         <a href="{% url 'menu' table_id=table_id %}">
-            <button class="start-order-btn">开始点餐</button>
+            <button class="start-order-btn">Start ordering</button>
         </a>
     </div>
 </body>

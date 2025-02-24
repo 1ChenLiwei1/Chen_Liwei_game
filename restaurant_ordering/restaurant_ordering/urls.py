@@ -32,6 +32,7 @@ urlpatterns = [
     path('', views.home, name='home'),
     path('cancel/', views.cancel, name='cancel'),
     path('success/', views.success, name='success'),
+    path("", include("orders.urls")),
 ]
 
 if settings.DEBUG:

@@ -1,40 +1,87 @@
-<html>
+<!DOCTYPE html>
+<html lang="zh">
 <head>
+    <meta charset="UTF-8">
     <title>厨房订单</title>
+</head>
+<body>
+    <h1>厨房订单</h1>
+    <ul id="order-list"></ul> <!-- 确保这个 ID 存在 -->
+
     <script>
+
+        document.addEventListener("DOMContentLoaded", function () {
+            console.log("DOM 已加载");
+            fetchOrders();
+            setInterval(fetchOrders, 5000);
+        });
+
         function fetchOrders() {
+            console.log("获取订单...");
+            let orderList = document.getElementById("order-list");
+            if (!orderList) {
+                console.error("order-list 未找到");
+                return;
+            }
+
             fetch("/kitchen/")
                 .then(response => response.json())
                 .then(data => {
-                    let orderList = document.getElementById("order-list");
+                    console.log("订单数据：", data);
                     orderList.innerHTML = "";
+                    if (data.length === 0) {
+                        orderList.innerHTML = "<li>暂无订单</li>";
+                        return;
+                    }
+
                     data.forEach(order => {
                         let orderElement = document.createElement("li");
                         let itemList = order.items.map(item => `${item.name} x ${item.quantity}`).join(", ");
-                        orderElement.innerHTML = `订单 ${order.id} - 状态: ${order.status}
+                        orderElement.innerHTML = `
+                            <strong>订单 ${order.id}</strong> - 状态: ${order.status}
                             <br> 菜品: ${itemList}
-                            <br><button onclick="markComplete(${order.id})">标记完成</button>`;
+                            <br><button onclick="markComplete(${order.id})">标记完成</button>
+                            <hr>
+                        `;
                         orderList.appendChild(orderElement);
                     });
-                });
+                })
+                .catch(error => console.error("加载订单失败:", error));
         }
 
         function markComplete(orderId) {
             fetch(`/api/orders/update/${orderId}/`, {
                 method: "POST",
                 headers: {
-                    "X-CSRFToken": "{{ csrf_token }}",
+                    "X-CSRFToken": getCSRFToken(),
                     "Content-Type": "application/json"
-                }
-            }).then(() => fetchOrders());
+                },
+                body: JSON.stringify({ status: "Completed" })
+            })
+            .then(() => fetchOrders())
+            .catch(error => console.error("更新订单失败:", error));
         }
 
-        setInterval(fetchOrders, 5000);
+        function getCSRFToken() {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== "") {
+                document.cookie.split(";").forEach(cookie => {
+                    let [name, value] = cookie.trim().split("=");
+                    if (name === "csrftoken") {
+                        cookieValue = decodeURIComponent(value);
+                    }
+                });
+            }
+            return cookieValue;
+        }
+        document.addEventListener("DOMContentLoaded", function () {
+            fetchOrders(); // 确保页面加载完再执行
+        });
+
     </script>
-</head>
-<body>
-    <h1>厨房订单</h1>
-    <ul id="order-list"></ul>
 </body>
 </html>
+
+
+
 
