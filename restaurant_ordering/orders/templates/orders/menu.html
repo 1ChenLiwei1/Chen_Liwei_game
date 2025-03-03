@@ -101,7 +101,7 @@
             <img src="{{ item.image.url }}" alt="{{ item.name }}">
             <h2>{{ item.name }}</h2>
             <p>{{ item.description }}</p>
-            <p><strong>价格：</strong>￥{{ item.price }}</p>
+            <p><strong>prices：</strong>￥{{ item.price }}</p>
             <div class="order-controls">
                 <button onclick="updateQuantity('{{ item.id }}', -1)">-</button>
                 <span id="quantity-{{ item.id }}">0</span>

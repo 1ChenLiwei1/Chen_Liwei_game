@@ -7,16 +7,7 @@
     <list default="true" id="4a271016-2024-4b61-b348-d01d488fe9d6" name="更改" comment="Initial commit">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/restaurant_ordering/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/restaurant_ordering/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/restaurant_ordering/orders/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/restaurant_ordering/orders/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/restaurant_ordering/orders/templates/orders/kitchen.html" beforeDir="false" afterPath="$PROJECT_DIR$/restaurant_ordering/orders/templates/orders/kitchen.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/restaurant_ordering/orders/templates/orders/menu.html" beforeDir="false" afterPath="$PROJECT_DIR$/restaurant_ordering/orders/templates/orders/menu.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/restaurant_ordering/orders/templates/orders/table_order.html" beforeDir="false" afterPath="$PROJECT_DIR$/restaurant_ordering/orders/templates/orders/table_order.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/restaurant_ordering/orders/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/restaurant_ordering/orders/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/restaurant_ordering/orders/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/restaurant_ordering/orders/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/restaurant_ordering/qr_code.py" beforeDir="false" afterPath="$PROJECT_DIR$/restaurant_ordering/qr_code.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/restaurant_ordering/restaurant_ordering/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/restaurant_ordering/restaurant_ordering/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/restaurant_ordering/restaurant_ordering/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/restaurant_ordering/restaurant_ordering/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/restaurant_ordering/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/restaurant_ordering/templates/base.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/restaurant_ordering/orders/templates/orders/checkout.html" beforeDir="false" afterPath="$PROJECT_DIR$/restaurant_ordering/orders/templates/orders/checkout.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -135,7 +126,8 @@
       <workItem from="1739872059267" duration="599000" />
       <workItem from="1740027356476" duration="9481000" />
       <workItem from="1740146060075" duration="6976000" />
-      <workItem from="1740208124940" duration="49828000" />
+      <workItem from="1740208124940" duration="53091000" />
+      <workItem from="1740962882238" duration="2053000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <option name="closed" value="true" />
@@ -209,7 +201,15 @@
       <option name="project" value="LOCAL" />
       <updated>1740330546386</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Initial commit">
+      <option name="closed" value="true" />
+      <created>1740369738646</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1740369738646</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

@@ -66,15 +66,14 @@
     </style>
 </head>
 <body>
-    <h1>结账</h1>
+    <h1>settle accounts</h1>
 
     <table>
         <thead>
             <tr>
-                <th>菜品</th>
-                <th>单价</th>
-                <th>数量</th>
-                <th>总价</th>
+                <th>dish</th>
+                <th>price</th>
+                <th>quantities</th>
             </tr>
         </thead>
         <tbody>
@@ -83,16 +82,15 @@
                 <td>{{ item.menuitem.name }}</td>
                 <td>￥{{ item.menuitem.price|floatformat:2 }}</td>
                 <td>{{ item.quantity }}</td>
-                <td>￥{{ item.menuitem.price|floatformat:2 }}</td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
 
-    <p class="total-price">总金额: ￥{{ total_price|floatformat:2 }}</p>
+    <p class="total-price">total amount: ￥{{ total_price|floatformat:2 }}</p>
     <p class="order-id">订单 ID: {{ order }}</p>
 
-    <button class="floating-button" onclick="goToPayment()">💳 立即支付</button>
+    <button class="floating-button" onclick="goToPayment()">💳 Pay Now</button>
 
     <script>
         let orderData = JSON.parse(localStorage.getItem('orderData')) || {};
