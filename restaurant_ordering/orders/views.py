@@ -7,6 +7,7 @@ from django.http import JsonResponse
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from .models import Order
+from django.views.decorators.csrf import csrf_exempt
 
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
@@ -195,7 +196,7 @@ def get_orders(request):
     orders = Order.objects.values("id", "status")
     return JsonResponse(list(orders), safe=False)
 
-
+@csrf_exempt
 def kitchen_orders(request):
     orders = Order.objects.filter(status="Pending").values("id", "status")  # 仅返回 id 和状态
     data = []
@@ -219,23 +220,6 @@ def kitchen_orders(request):
 
     return JsonResponse(data, safe=False)  # 确保返回 JSON
 
-def get_kitchen_orders(request):
-    orders = Order.objects.prefetch_related("items__menuitem").all()
-
-    data = [
-        {
-            "id": order.id,
-            "status": order.status,
-            "items": [
-                {"name": item.menuitem.name, "quantity": item.quantity}
-                for item in order.items.all()
-            ],
-        }
-        for order in orders
-    ]
-
-    return JsonResponse(data, safe=False)
-
 
 def mark_order_complete(request, order_id):
     if request.method == "POST":
@@ -244,3 +228,8 @@ def mark_order_complete(request, order_id):
         order.save()
         return JsonResponse({"message": "订单已完成"})
     return JsonResponse({"error": "无效请求"}, status=400)
+
+@csrf_exempt
+def kitchen_view(request):
+    """渲染厨房界面"""
+    return render(request, "kitchen.html")

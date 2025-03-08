@@ -84,8 +84,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'restaurant_ordering.wsgi.application'
-
+CORS_ALLOW_ALL_ORIGINS = True  # 允许所有来源（测试用）
 
 
 

@@ -9,7 +9,6 @@
     <ul id="order-list"></ul> <!-- 确保这个 ID 存在 -->
 
     <script>
-
         document.addEventListener("DOMContentLoaded", function () {
             console.log("DOM 已加载");
             fetchOrders();
@@ -17,36 +16,28 @@
         });
 
         function fetchOrders() {
-            console.log("获取订单...");
-            let orderList = document.getElementById("order-list");
-            if (!orderList) {
-                console.error("order-list 未找到");
-                return;
-            }
-
             fetch("/kitchen/")
                 .then(response => response.json())
                 .then(data => {
-                    console.log("订单数据：", data);
-                    orderList.innerHTML = "";
-                    if (data.length === 0) {
-                        orderList.innerHTML = "<li>暂无订单</li>";
+                    console.log("订单数据:", data);  // 确保数据正确获取
+                    let orderList = document.getElementById("order-list");
+
+                    if (!orderList) {
+                        console.error("order-list 元素未找到");
                         return;
                     }
 
+                    orderList.innerHTML = "";  // 清空列表
                     data.forEach(order => {
                         let orderElement = document.createElement("li");
                         let itemList = order.items.map(item => `${item.name} x ${item.quantity}`).join(", ");
-                        orderElement.innerHTML = `
-                            <strong>订单 ${order.id}</strong> - 状态: ${order.status}
+                        orderElement.innerHTML = `订单 ${order.id} - 状态: ${order.status}
                             <br> 菜品: ${itemList}
-                            <br><button onclick="markComplete(${order.id})">标记完成</button>
-                            <hr>
-                        `;
+                            <br><button onclick="markComplete(${order.id})">标记完成</button>`;
                         orderList.appendChild(orderElement);
                     });
                 })
-                .catch(error => console.error("加载订单失败:", error));
+                .catch(error => console.error("加载订单时出错:", error));
         }
 
         function markComplete(orderId) {
@@ -74,10 +65,9 @@
             }
             return cookieValue;
         }
-        document.addEventListener("DOMContentLoaded", function () {
-            fetchOrders(); // 确保页面加载完再执行
-        });
 
+        // 让 fetchOrders 在 Console 可用
+        window.fetchOrders = fetchOrders;
     </script>
 </body>
 </html>
