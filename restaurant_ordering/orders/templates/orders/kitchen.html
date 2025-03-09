@@ -18,14 +18,13 @@
            fetch("/api/orders/")   // 确保路径匹配 Django `urls.py`
                 .then(response => response.json())
                 .then(data => {
-                    console.log("订单数据:", data);  // 确保拿到了数据
+                    console.log("🔥 订单数据:", data);  // 确保拿到了数据
                     renderOrders(data);  // 调用函数渲染数据
                 })
                 .catch(error => console.error("加载订单时出错:", error));
-}
+        }
 
-// 渲染订单到页面
-       function renderOrders(orders) {
+        function renderOrders(orders) {
             const orderList = document.getElementById("order-list");
             orderList.innerHTML = "";  // 清空列表
 
@@ -46,16 +45,34 @@
                     orderElement.appendChild(itemList);
                 }
 
+                // **添加 "标记完成" 按钮**
+                if (order.status !== "Completed") {
+                    let completeButton = document.createElement("button");
+                    completeButton.textContent = "标记完成";
+                    completeButton.onclick = () => markCompleted(order.id); // 绑定点击事件
+                    orderElement.appendChild(completeButton);
+                }
+
                 orderList.appendChild(orderElement);
             });
-       }
+        }
 
-        // **定时刷新**，让数据自动更新
-        setInterval(fetchOrders, 5000); // 每 5 秒更新一次订单数据
-
-        // 页面加载时立即执行一次
-        fetchOrders();
-
+        function markCompleted(orderId) {
+            fetch(`/api/orders/${orderId}/`, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": getCSRFToken()  // 需要 CSRF 令牌
+                },
+                body: JSON.stringify({ status: "Completed" })  // 设为完成
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(`✅ 订单 ${orderId} 已标记为完成`, data);
+                fetchOrders(); // 重新获取订单列表，刷新页面
+            })
+            .catch(error => console.error("更新订单状态时出错:", error));
+        }
 
         function getCSRFToken() {
             let cookieValue = null;

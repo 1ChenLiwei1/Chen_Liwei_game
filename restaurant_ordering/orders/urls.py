@@ -15,6 +15,6 @@ urlpatterns = [
     path('cancel/', views.cancel, name='cancel'),
     path("kitchen/", views.kitchen_view, name="kitchen_view"),
     path("api/orders/", views.kitchen_orders, name="kitchen_orders"),
-    path("api/orders/update/<int:order_id>/", views.update_order_status, name="update_order_status"),
+    path("api/orders/<int:order_id>/", views.update_order_status, name="update_order_status"),
     path('', views.home, name='home')
 ]
