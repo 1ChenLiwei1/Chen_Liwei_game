@@ -6,72 +6,70 @@
 </head>
 <body>
     <h1>厨房订单</h1>
-    <ul id="order-list"></ul> <!-- 确保这个 ID 存在 -->
+    <ul id="order-list"></ul> <!-- 订单列表 -->
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            console.log("DOM 已加载");
-            fetchOrders();
-            setInterval(fetchOrders, 5000);
+            fetchOrders();  // 页面加载时获取订单
+            setInterval(fetchOrders, 5000);  // 每 5 秒刷新订单
         });
 
         function fetchOrders() {
-            fetch("/kitchen/")
+           fetch("/api/orders/")   // 确保路径匹配 Django `urls.py`
                 .then(response => response.json())
                 .then(data => {
-                    console.log("订单数据:", data);  // 确保数据正确获取
-                    let orderList = document.getElementById("order-list");
-
-                    if (!orderList) {
-                        console.error("order-list 元素未找到");
-                        return;
-                    }
-
-                    orderList.innerHTML = "";  // 清空列表
-                    data.forEach(order => {
-                        let orderElement = document.createElement("li");
-                        let itemList = order.items.map(item => `${item.name} x ${item.quantity}`).join(", ");
-                        orderElement.innerHTML = `订单 ${order.id} - 状态: ${order.status}
-                            <br> 菜品: ${itemList}
-                            <br><button onclick="markComplete(${order.id})">标记完成</button>`;
-                        orderList.appendChild(orderElement);
-                    });
+                    console.log("订单数据:", data);  // 确保拿到了数据
+                    renderOrders(data);  // 调用函数渲染数据
                 })
                 .catch(error => console.error("加载订单时出错:", error));
-        }
+}
 
-        function markComplete(orderId) {
-            fetch(`/api/orders/update/${orderId}/`, {
-                method: "POST",
-                headers: {
-                    "X-CSRFToken": getCSRFToken(),
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({ status: "Completed" })
-            })
-            .then(() => fetchOrders())
-            .catch(error => console.error("更新订单失败:", error));
-        }
+// 渲染订单到页面
+       function renderOrders(orders) {
+            const orderList = document.getElementById("order-list");
+            orderList.innerHTML = "";  // 清空列表
+
+            orders.forEach(order => {
+                let orderElement = document.createElement("li");
+                orderElement.innerHTML = `<strong>订单 ID:</strong> ${order.id} | <strong>状态:</strong> ${order.status}`;
+
+                // **检查 items 是否存在**
+                if (!order.items || order.items.length === 0) {
+                    orderElement.innerHTML += " （无菜品）";
+                } else {
+                    let itemList = document.createElement("ul");
+                    order.items.forEach(item => {
+                        let itemElement = document.createElement("li");
+                        itemElement.textContent = `${item.name} - 数量: ${item.quantity}`;
+                        itemList.appendChild(itemElement);
+                    });
+                    orderElement.appendChild(itemList);
+                }
+
+                orderList.appendChild(orderElement);
+            });
+       }
+
+        // **定时刷新**，让数据自动更新
+        setInterval(fetchOrders, 5000); // 每 5 秒更新一次订单数据
+
+        // 页面加载时立即执行一次
+        fetchOrders();
+
 
         function getCSRFToken() {
             let cookieValue = null;
-            if (document.cookie && document.cookie !== "") {
-                document.cookie.split(";").forEach(cookie => {
-                    let [name, value] = cookie.trim().split("=");
-                    if (name === "csrftoken") {
-                        cookieValue = decodeURIComponent(value);
-                    }
-                });
-            }
+            document.cookie.split(";").forEach(cookie => {
+                let [name, value] = cookie.trim().split("=");
+                if (name === "csrftoken") {
+                    cookieValue = decodeURIComponent(value);
+                }
+            });
             return cookieValue;
         }
-
-        // 让 fetchOrders 在 Console 可用
-        window.fetchOrders = fetchOrders;
     </script>
 </body>
 </html>
-
 
 
 

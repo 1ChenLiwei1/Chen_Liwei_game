@@ -3,7 +3,6 @@ from . import views  # 导入 views 文件中的视图函数
 from .views import update_order
 
 urlpatterns = [
-    path("api/orders/", views.get_orders, name="get_orders"),
     path('order/<int:table_id>/', views.table_order, name='table_order'),  # 订单页面，显示指定桌号的订单信息
     path('pay_order/<int:order_id>/', views.pay_order, name='pay_order'),  # 支付订单，处理订单支付
     path('submit_order/', views.submit_order, name='submit_order'),  # 提交订单，提交餐厅订单
@@ -15,6 +14,7 @@ urlpatterns = [
     path('add_to_cart/<int:table_id>/<int:menu_item_id>/', views.add_to_cart, name="add_to_cart"),
     path('cancel/', views.cancel, name='cancel'),
     path("kitchen/", views.kitchen_view, name="kitchen_view"),
-    path("api/orders/update/<int:order_id>/", views.mark_order_complete, name="mark_order_complete"),
+    path("api/orders/", views.kitchen_orders, name="kitchen_orders"),
+    path("api/orders/update/<int:order_id>/", views.update_order_status, name="update_order_status"),
     path('', views.home, name='home')
 ]

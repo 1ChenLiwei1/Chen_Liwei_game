@@ -221,15 +221,24 @@ def kitchen_orders(request):
     return JsonResponse(data, safe=False)  # 确保返回 JSON
 
 
-def mark_order_complete(request, order_id):
+@csrf_exempt
+def update_order_status(request, order_id):
     if request.method == "POST":
-        order = get_object_or_404(Order, id=order_id)
-        order.status = "完成"
-        order.save()
-        return JsonResponse({"message": "订单已完成"})
-    return JsonResponse({"error": "无效请求"}, status=400)
+        try:
+            data = json.loads(request.body)
+            new_status = data.get("status")
+            order = Order.objects.get(id=order_id)
+            order.status = new_status
+            order.save()
+            return JsonResponse({"message": "订单状态已更新"})
+        except Order.DoesNotExist:
+            return JsonResponse({"error": "订单不存在"}, status=404)
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=500)
+    return JsonResponse({"error": "仅支持 POST 请求"}, status=400)
 
 @csrf_exempt
 def kitchen_view(request):
     """渲染厨房界面"""
-    return render(request, "kitchen.html")
+    return render(request, "orders/kitchen.html")
+
