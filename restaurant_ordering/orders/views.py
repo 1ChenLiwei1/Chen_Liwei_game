@@ -223,23 +223,26 @@ def kitchen_orders(request):
 
 @csrf_exempt
 def update_order_status(request, order_id):
-    """更新订单状态"""
     if request.method == "PATCH":
         try:
             order = Order.objects.get(id=order_id)
-            data = json.loads(request.body)
-            new_status = data.get("status")
+            try:
+                data = json.loads(request.body.decode("utf-8"))
+            except json.JSONDecodeError:
+                return JsonResponse({"error": "Invalid JSON format"}, status=400)
 
-            if new_status in dict(Order.STATUS_CHOICES):  # 确保状态有效
+            new_status = data.get("status")
+            if new_status in dict(Order.STATUS_CHOICES):
                 order.status = new_status
                 order.save()
-                return JsonResponse({"message": f"订单 {order_id} 状态更新为 {new_status}"}, status=200)
+                return JsonResponse({"message": f"Order {order_id} status updated to {new_status}"}, status=200)
             else:
-                return JsonResponse({"error": "无效的状态"}, status=400)
-        except Order.DoesNotExist:
-            return JsonResponse({"error": "订单不存在"}, status=404)
+                return JsonResponse({"error": "Invalid status"}, status=400)
 
-    return JsonResponse({"error": "不支持的请求方法"}, status=405)
+        except Order.DoesNotExist:
+            return JsonResponse({"error": "Order not found"}, status=404)
+
+    return JsonResponse({"error": "Method not allowed"}, status=405)
 
 @csrf_exempt
 def kitchen_view(request):

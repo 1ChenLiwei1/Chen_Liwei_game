@@ -2,10 +2,10 @@
 <html lang="zh">
 <head>
     <meta charset="UTF-8">
-    <title>厨房订单</title>
+    <title>Kitchen orders</title>
 </head>
 <body>
-    <h1>厨房订单</h1>
+    <h1>Kitchen orders</h1>
     <ul id="order-list"></ul> <!-- 订单列表 -->
 
     <script>
@@ -18,10 +18,10 @@
            fetch("/api/orders/")   // 确保路径匹配 Django `urls.py`
                 .then(response => response.json())
                 .then(data => {
-                    console.log("🔥 订单数据:", data);  // 确保拿到了数据
+                    console.log("🔥 Order data:", data);  // 确保拿到了数据
                     renderOrders(data);  // 调用函数渲染数据
                 })
-                .catch(error => console.error("加载订单时出错:", error));
+                .catch(error => console.error("Error loading order:", error));
         }
 
         function renderOrders(orders) {
@@ -30,7 +30,7 @@
 
             orders.forEach(order => {
                 let orderElement = document.createElement("li");
-                orderElement.innerHTML = `<strong>订单 ID:</strong> ${order.id} | <strong>状态:</strong> ${order.status}`;
+                orderElement.innerHTML = `<strong>Order ID:</strong> ${order.id} | <strong>Status:</strong> ${order.status}`;
 
                 // **检查 items 是否存在**
                 if (!order.items || order.items.length === 0) {
@@ -39,7 +39,7 @@
                     let itemList = document.createElement("ul");
                     order.items.forEach(item => {
                         let itemElement = document.createElement("li");
-                        itemElement.textContent = `${item.name} - 数量: ${item.quantity}`;
+                        itemElement.textContent = `${item.name} - Quantity: ${item.quantity}`;
                         itemList.appendChild(itemElement);
                     });
                     orderElement.appendChild(itemList);
@@ -48,7 +48,7 @@
                 // **添加 "标记完成" 按钮**
                 if (order.status !== "Completed") {
                     let completeButton = document.createElement("button");
-                    completeButton.textContent = "标记完成";
+                    completeButton.textContent = "Mark as Completed";
                     completeButton.onclick = () => markCompleted(order.id); // 绑定点击事件
                     orderElement.appendChild(completeButton);
                 }
@@ -68,7 +68,7 @@
             })
             .then(response => response.json())
             .then(data => {
-                console.log(`✅ 订单 ${orderId} 已标记为完成`, data);
+                console.log(`✅ Order ${orderId} marked as completed`, data);
                 fetchOrders(); // 重新获取订单列表，刷新页面
             })
             .catch(error => console.error("更新订单状态时出错:", error));
