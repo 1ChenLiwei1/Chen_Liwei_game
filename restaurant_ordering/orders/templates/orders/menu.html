@@ -134,15 +134,6 @@
         });
     }
 
-    document.getElementById("checkout-btn").addEventListener("click", function () {
-        var orderId = "{{ order.id|default:'' }}";    // 从 Django 模板获取 order_id
-        if (orderId) {
-            window.location.href = "/order/checkout/" + orderId + "/";
-        } else {
-            alert("暂无订单可结账");
-        }
-    });
-
     function addToCart(tableId, menuItemId) {
         fetch(`/order/add_to_cart/${tableId}/${menuItemId}/`, {
             method: 'POST',
