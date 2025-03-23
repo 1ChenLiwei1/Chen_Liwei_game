@@ -198,7 +198,7 @@ def get_orders(request):
 
 @csrf_exempt
 def kitchen_orders(request):
-    orders = Order.objects.filter(status="Pending").values("id", "status")  # 仅返回 id 和状态
+    orders = Order.objects.all().values("id", "status")  # 获取所有状态的订单
     data = []
 
     for order in orders:
@@ -208,7 +208,7 @@ def kitchen_orders(request):
             "items": []
         }
 
-        # 获取订单对应的菜品列表
+        # 获取订单的菜品
         order_items = OrderItems.objects.filter(order_id=order["id"]).values("menuitem__name", "quantity")
         for item in order_items:
             order_obj["items"].append({
@@ -218,7 +218,7 @@ def kitchen_orders(request):
 
         data.append(order_obj)
 
-    return JsonResponse(data, safe=False)  # 确保返回 JSON
+    return JsonResponse(data, safe=False)
 
 
 @csrf_exempt
