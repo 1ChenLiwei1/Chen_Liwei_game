@@ -4,8 +4,9 @@
     {% load static %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>结账 - 订单确认</title>
+    <title>Checkout - Order Confirmation</title>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
         body {
             font-family: 'Microsoft YaHei', 'Heiti SC', 'Helvetica', sans-serif;
@@ -63,10 +64,33 @@
         .floating-button:hover {
             background-color: #45a049;
         }
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 16px;
+            color: #d4342c;
+            text-decoration: none;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
+
+        .back-button i {
+            margin-right: 6px;
+        }
+        .back-button:hover {
+            text-decoration: underline;
+            color: #a12b25;
+        }
     </style>
 </head>
 <body>
-    <h1>settle accounts</h1>
+    <a href="/menu/1" class="back-button">
+    <i class="fas fa-arrow-left"></i>
+    </a>
+
+    <h1>Settle accounts</h1>
 
     <table>
         <thead>
@@ -112,12 +136,12 @@
 
             orderSummaryHTML += "</ul>";
             document.getElementById("order-summary").innerHTML = orderSummaryHTML;
-            document.getElementById("total-price").innerText = `总金额: ￥${totalPrice.toFixed(2)}`;
+            document.getElementById("total-price").innerText = `total amount: ￥${totalPrice.toFixed(2)}`;
         }
 
         function goToPayment() {
             if (!orderId || orderId === "None") {
-                alert("订单 ID 无效，请刷新页面或重新下单！");
+                alert("Order ID is invalid, please refresh the page or place a new order！");
                 return;
             }
 

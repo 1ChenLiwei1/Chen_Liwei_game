@@ -100,7 +100,7 @@ def home(request):
     return render(request, 'orders/home.html')
 
 
-def checkout(request, order_id):
+def checkout(request, order_id,):
     order = get_object_or_404(Order, id=order_id)
     order_items = OrderItems.objects.filter(order=order)
 
@@ -160,21 +160,29 @@ def update_order(request):
 
 def add_to_cart(request, table_id, menu_item_id):
     if request.method == "POST":
-        table = get_object_or_404(Table, id=table_id)
-        # 查找当前桌子的“待支付”订单，若无则创建新订单
-        order, created = Order.objects.get_or_create(table=table, status="Pending")
+        data = json.loads(request.body)
+        quantity = data.get("quantity", 1)  # 默认是1，如果没传
 
+        table = get_object_or_404(Table, id=table_id)
+        order, created = Order.objects.get_or_create(table=table, status="Pending")
         menu_item = get_object_or_404(MenuItem, id=menu_item_id)
         order_item, created = OrderItems.objects.get_or_create(order=order, menuitem=menu_item)
-        order_item.quantity += 1  # 增加数量
+
+        # ⚠️ 如果是新建的，直接设置数量；否则累加
+        if created:
+            order_item.quantity = quantity
+        else:
+            order_item.quantity += quantity
+
         order_item.save()
 
         return JsonResponse({
             "message": "菜品已加入购物车",
-            "order_id": order.id,  # 确保返回 order_id
+            "order_id": order.id,
             "menu_item": menu_item.name,
             "quantity": order_item.quantity,
         })
+
     else:
         return JsonResponse({"error": "只支持 POST 请求"}, status=400)
 

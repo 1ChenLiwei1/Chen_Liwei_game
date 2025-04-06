@@ -69,13 +69,13 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'restaurant_ordering.urls'
 
 CSRF_TRUSTED_ORIGINS = [
-    "https://3394-118-189-129-137.ngrok-free.app",
+    "https://4653-180-129-36-51.ngrok-free.app",
     "http://localhost:8000",
     "http://127.0.0.1:8000",
 ]
 
 CORS_ALLOWED_ORIGINS = [
-    "https://3394-118-189-129-137.ngrok-free.app",
+    "https://4653-180-129-36-51.ngrok-free.app",
     "http://localhost:8000",
     "http://127.0.0.1:8000",
 ]
