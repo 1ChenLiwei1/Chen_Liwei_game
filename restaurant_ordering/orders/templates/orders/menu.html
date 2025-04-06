@@ -53,16 +53,22 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin: 10px 0;
+            margin-top: 10px;
+            flex-wrap: wrap;
+            gap: 10px;
         }
         .order-controls button {
             background-color: #d4342c;
             color: white;
             border: none;
-            padding: 8px 15px;
+            padding: 10px 15px;
             cursor: pointer;
             border-radius: 3px;
-            font-size: 1em;
+            font-size: 16px;
+            text-align: center;
+            line-height: normal;
+            width: auto;
+            height: auto;
         }
         .floating-button {
             position: fixed;
@@ -89,7 +95,6 @@
         }
     </style>
 </head>
-
 <body>
     <div class="header">
         <h1>Welcome to order. Your table number is {{ table_id }}</h1>
@@ -101,67 +106,76 @@
             <img src="{{ item.image.url }}" alt="{{ item.name }}">
             <h2>{{ item.name }}</h2>
             <p>{{ item.description }}</p>
-            <p><strong>prices：</strong>￥{{ item.price }}</p>
+            <p><strong>Price：</strong>￥{{ item.price }}</p>
             <div class="order-controls">
                 <button onclick="updateQuantity('{{ item.id }}', -1)">-</button>
                 <span id="quantity-{{ item.id }}">0</span>
                 <button onclick="updateQuantity('{{ item.id }}', 1)">+</button>
-                <button onclick="addToCart({{ table_id }}, {{ item.id }})">Add to Cart</button>
+                <button
+                    class="add-to-cart"
+                    data-table-id="{{ table_id }}"
+                    data-item-id="{{ item.id }}"
+                >
+                    Add to Cart
+                </button>
             </div>
         </div>
         {% endfor %}
     </div>
 
     <button class="floating-button" id="checkout-btn">
-        💳 go and pay
+         go and pay
     </button>
-
 
     <script>
         function updateQuantity(menuItemId, change) {
-        let quantitySpan = document.getElementById(`quantity-${menuItemId}`);
-        let currentQuantity = parseInt(quantitySpan.textContent);
-        let newQuantity = Math.max(0, currentQuantity + change);
-        quantitySpan.textContent = newQuantity;
+            let quantitySpan = document.getElementById(`quantity-${menuItemId}`);
+            let currentQuantity = parseInt(quantitySpan.textContent);
+            let newQuantity = Math.max(0, currentQuantity + change);
+            quantitySpan.textContent = newQuantity;
 
-        fetch("{% url 'update_order' %}", {
-            method: "POST",
-            headers: {
-                "X-CSRFToken": "{{ csrf_token }}",
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ menu_item_id: menuItemId, quantity: newQuantity }),
-        });
-    }
-
-    function addToCart(tableId, menuItemId) {
-        fetch(`/order/add_to_cart/${tableId}/${menuItemId}/`, {
-            method: 'POST',
-            headers: {
-                'X-CSRFToken': '{{ csrf_token }}',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({})
-        })
-        .then(response => response.json())
-        .then(data => {
-            console.log("加入购物车成功：", data);
-            if (data.order_id) {
-                document.getElementById("checkout-btn").setAttribute("data-order-id", data.order_id);
-            }
-        })
-        .catch(error => console.error("错误：", error));
-    }
-
-    document.getElementById("checkout-btn").addEventListener("click", function () {
-        var orderId = this.getAttribute("data-order-id");
-        if (orderId) {
-            window.location.href = "/order/checkout/" + orderId + "/";
-        } else {
-            alert("暂无订单可结账");
+            fetch("{% url 'update_order' %}", {
+                method: "POST",
+                headers: {
+                    "X-CSRFToken": "{{ csrf_token }}",
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ menu_item_id: menuItemId, quantity: newQuantity }),
+            });
         }
-    });
 
+        document.querySelectorAll('.add-to-cart').forEach(button => {
+            button.addEventListener('click', function () {
+                const tableId = this.getAttribute('data-table-id');
+                const itemId = this.getAttribute('data-item-id');
+
+                fetch(`/order/add_to_cart/${tableId}/${itemId}/`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': '{{ csrf_token }}',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({})
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log("加入购物车成功：", data);
+                    if (data.order_id) {
+                        document.getElementById("checkout-btn").setAttribute("data-order-id", data.order_id);
+                    }
+                })
+                .catch(error => console.error("错误：", error));
+            });
+        });
+
+        document.getElementById("checkout-btn").addEventListener("click", function () {
+            var orderId = this.getAttribute("data-order-id");
+            if (orderId) {
+                window.location.href = "/order/checkout/" + orderId + "/";
+            } else {
+                alert("暂无订单可结账");
+            }
+        });
     </script>
 </body>
 </html>

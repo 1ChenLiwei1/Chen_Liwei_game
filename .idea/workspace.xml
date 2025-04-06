@@ -5,11 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4a271016-2024-4b61-b348-d01d488fe9d6" name="更改" comment="Initial commit">
-      <change beforePath="$PROJECT_DIR$/.idea/Chen_Liwei_game.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Chen_Liwei_game.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/restaurant_ordering/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/restaurant_ordering/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/restaurant_ordering/orders/templates/orders/kitchen.html" beforeDir="false" afterPath="$PROJECT_DIR$/restaurant_ordering/orders/templates/orders/kitchen.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/restaurant_ordering/orders/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/restaurant_ordering/orders/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/restaurant_ordering/orders/templates/orders/cancel.html" beforeDir="false" afterPath="$PROJECT_DIR$/restaurant_ordering/orders/templates/orders/cancel.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/restaurant_ordering/orders/templates/orders/checkout.html" beforeDir="false" afterPath="$PROJECT_DIR$/restaurant_ordering/orders/templates/orders/checkout.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/restaurant_ordering/orders/templates/orders/menu.html" beforeDir="false" afterPath="$PROJECT_DIR$/restaurant_ordering/orders/templates/orders/menu.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/restaurant_ordering/orders/templates/orders/success.html" beforeDir="false" afterPath="$PROJECT_DIR$/restaurant_ordering/orders/templates/orders/success.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/restaurant_ordering/orders/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/restaurant_ordering/orders/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/restaurant_ordering/orders/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/restaurant_ordering/orders/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -48,28 +51,28 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "DefaultHtmlFileTemplate": "HTML File",
-    "Django 服务器.restaurant_ordering.executor": "Run",
-    "Python.manage.executor": "Profiler",
-    "Python.qr_code.executor": "Run",
-    "RunOnceActivity.OpenDjangoStructureViewOnStart": "true",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main",
-    "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "E:/Pycharm/Chen_Liwei_game",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "project.propVCSSupport.DirectoryMappings",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+    &quot;Django 服务器.restaurant_ordering.executor&quot;: &quot;Run&quot;,
+    &quot;Python.manage.executor&quot;: &quot;Run&quot;,
+    &quot;Python.qr_code.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenDjangoStructureViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;E:/Pycharm/Chen_Liwei_game&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;project.propVCSSupport.DirectoryMappings&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="E:\Pycharm\Chen_Liwei_game\assets" />
@@ -82,7 +85,7 @@
       <recent name="E:\Pycharm\Chen_Liwei_game\restaurant_ordering\orders" />
     </key>
   </component>
-  <component name="RunManager" selected="Django 服务器.restaurant_ordering">
+  <component name="RunManager" selected="Python.manage">
     <configuration default="true" type="JavaScriptTestRunnerCypress">
       <node-interpreter value="project" />
       <cypress-options value="-q" />
@@ -227,6 +230,10 @@
       <workItem from="1742180444017" duration="1165000" />
       <workItem from="1742195932194" duration="1274000" />
       <workItem from="1742640643107" duration="1490000" />
+      <workItem from="1742737347059" duration="614000" />
+      <workItem from="1742738238914" duration="5266000" />
+      <workItem from="1743494952640" duration="671000" />
+      <workItem from="1743842167461" duration="4958000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <option name="closed" value="true" />
@@ -364,7 +371,15 @@
       <option name="project" value="LOCAL" />
       <updated>1742196091577</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="Initial commit">
+      <option name="closed" value="true" />
+      <created>1742737374433</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1742737374433</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -373,17 +388,6 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Initial commit" />
     <option name="LAST_COMMIT_MESSAGE" value="Initial commit" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/restaurant_ordering/restaurant_ordering/urls.py</url>
-          <line>21</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Chen_Liwei_game$manage.coverage" NAME="manage 覆盖结果" MODIFIED="1739160599122" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/restaurant_project" />

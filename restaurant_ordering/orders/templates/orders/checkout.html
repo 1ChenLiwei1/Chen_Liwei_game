@@ -88,9 +88,8 @@
     </table>
 
     <p class="total-price">total amount: ￥{{ total_price|floatformat:2 }}</p>
-    <p class="order-id">订单 ID: {{ order }}</p>
 
-    <button class="floating-button" onclick="goToPayment()">💳 Pay Now</button>
+    <button class="floating-button" onclick="goToPayment()"> Pay Now</button>
 
     <script>
         let orderData = JSON.parse(localStorage.getItem('orderData')) || {};

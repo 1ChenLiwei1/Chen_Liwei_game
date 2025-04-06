@@ -79,8 +79,8 @@ def create_checkout_session(request):
                 'quantity': 1,
             }],
             mode='payment',
-            success_url="http://127.0.0.1:8000/success/",
-            cancel_url="http://127.0.0.1:8000/cancel/",
+            success_url=f"http://127.0.0.1:8000/success/{order.table.id}/",
+            cancel_url=f"http://127.0.0.1:8000/cancel/{order.table.id}/",
         )
     except Exception as e:
         print("Stripe 创建会话错误:", e)
@@ -120,12 +120,12 @@ def checkout(request, order_id):
     })
 
 
-def success(request):
-    return render(request, 'orders/success.html')
+def success(request, table_id):
+    return render(request, 'orders/success.html', {'table_id': table_id})
 
 
-def cancel(request):
-    return render(request, 'orders/cancel.html')
+def cancel(request, table_id):
+    return render(request, 'orders/cancel.html', {'table_id': table_id})
 
 
 def update_order(request):

@@ -19,9 +19,9 @@ class MenuItem(models.Model):
 
 class Order(models.Model):
     STATUS_CHOICES = [
-        ("Pending", "待处理"),
-        ("Preparing", "正在准备"),
-        ("Completed", "完成"),
+        ("Pending", "Pending"),
+        ("Preparing", "Preparing"),
+        ("Completed", "Completed"),
     ]
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default="Pending")
     table = models.ForeignKey('Table', on_delete=models.CASCADE)
